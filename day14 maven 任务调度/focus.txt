@@ -1,0 +1,102 @@
+webservice
+
+任务调度
+	固定在某个时间点 或者 每隔多长时间 执行一个任务
+
+	任务 - 其实就是执行一个方法()
+
+	类似触发器 trigger
+
+任务调度的两种实现
+
+1 JDK中提供的Timer计时器(一个类 java.util.Timer)
+使用该计时器，需要使用一个ServletContextListener即全局监听器，
+当web服务器开启时，就开始计时，通过调用TimerTask里面的run()来实现
+执行任务
+
+2 javaee中提供的quartz框架
+	
+	2.1 单独使用quartz配置
+
+	2.2 spring提供的内置集成方式
+		context-support子层
+			[任务调度 缓存框架]
+spring中使用任务调度IOC容器中的流程
+1、配置任务对象bean 普通bean
+2、 描述任务细节  设置任务对象bean和任务方法   MethodInvokingJobDetailFactoryBean
+3、给任务细节设置触发时间  CronTriggerFactoryBean
+4、配置总调度类 将当前ioc容器中配置的所有触发器引入到该调度类中
+		SchedulerFactoryBean
+
+注：expression的注意点 ：
+
+    0/7 * 10 * * ?   表示每天上午10:0:0~10:59:59 从10:0:0开始，然后
+    			隔7秒执行一次，直到10:59:59
+   
+    0 15 10  ?  * 6L  每个月的最后一个星期六10点15分0秒触发
+    
+    0 15 10 ? *  6#3  每个月的第三个星期六10点15分0秒触发
+    
+    0 15 10 6#3 *  ?  这是错误的写法 #只能在星期内第几天中用
+
+
+缓存框架redis
+
+
+正则表达式
+
+
+maven
+	项目管理工具
+	用于管理工程中用到的jar包
+	
+	maven工程 
+		pom.xml
+			配置工程中需要的jar包信息和工程之间的依赖关系
+
+		jar包是从远程的一个服务器 即maven 中央仓库下载到
+		本地的中央仓库，所以按照maven时要配置本地的中央仓库信息
+	
+	如何使用apache-maven 工具
+	1、解压缩apache-maven-3.3.9
+		在conf下的settings.xml配置 本地中央仓库  53行
+		
+	
+	2、设置环境变量
+		M2_HOME   apache-maven根目录 其实类似java_home
+		path      %M2_HOME%/bin
+		classpath  %M2_HOME%/lib
+
+	3、在cmd中测试一下输入mvn看是否安装成功
+	
+
+如何创建maven工程
+1、在cmd中先mvn一下
+2、在工具中(如STS工具) new 一个 maven project
+3、注意在开发前src/main目录下必须有 java resources webapp这三个子目录
+而Java+resource 就相当于我们之前的src
+java包下放.java文件 如com.etoak.bean com.etoak.action等等
+resource包下放资源文件如 struts.xml  Student.hbm.xml  
+	applicationContext.xml等等
+
+
+Maven怎么用的?
+     本地安装apache-maven
+     配置maven环境变量 ： m2_home classpath path
+     修改配置文件，指向本地资源库(配置本地仓库) apache-maven/conf/settings.xml
+     命令控制台运行mvn命令，安装maven基础jar
+     myeclipse或者STS中配置maven环境，指向本地安装的maven工具(其实是指向settings.xml)
+     创建maven工程,设置groupid（基础包结构），artifactId（工程名）
+     需要的jar包在pom.xml的dependencys元素下声明
+     ...
+
+
+
+
+
+
+
+hello-0.0.1-SNAPSHOT.jar
+	com.etoak.
+
+mybatis-3.2.8.jar

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+  
+  <servlet>
+  	<servlet-name>cxf</servlet-name>
+  	<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>cxf</servlet-name>
+  	<url-pattern>/ws/*</url-pattern>
+  </servlet-mapping>
+  <!-- 
+  	对于本工程而言,只能接收以/ws/*为前缀的请求作为合法的webservice请求
+  	* 还需要告诉所有的客户端程序,应该以何种方式向本工程发送webservice请求.
+  -->
+  <!-- 
+  	http://localhost:8080/cxf-server/hello
+  		本工程客户端向本工程服务器发送的普通hello请求
+  	http://localhost:8080/cxf-server/emp/hello
+  		本工程客户端emp目录下页面向本工程服务器发送的普通hello请求
+  	http://localhost:8080/cxf-server/ws/hello
+  		其他工程向本工程发送的一个webservice请求
+   -->
+  
+  <display-name>cxf-server</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

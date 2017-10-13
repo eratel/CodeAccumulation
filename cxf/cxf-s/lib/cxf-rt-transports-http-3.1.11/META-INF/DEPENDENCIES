@@ -1,0 +1,25 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache CXF
+
+
+From: 'Codehaus' (http://www.codehaus.org/)
+  - Woodstox (http://woodstox.codehaus.org) org.codehaus.woodstox:woodstox-core-asl:jar:4.4.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'fasterxml.com' (http://fasterxml.com)
+  - Stax2 API (http://wiki.fasterxml.com/WoodstoxStax2) org.codehaus.woodstox:stax2-api:bundle:3.1.4
+    License: The BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Apache CXF Core (http://cxf.apache.org) org.apache.cxf:cxf-core:bundle:3.1.11
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - XmlSchema Core (http://ws.apache.org/commons/xmlschema20/xmlschema-core/) org.apache.ws.xmlschema:xmlschema-core:bundle:2.2.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+

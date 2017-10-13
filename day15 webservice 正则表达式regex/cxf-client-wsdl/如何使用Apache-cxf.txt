@@ -1,0 +1,16 @@
+安装apache-cxf  
+1、解压缩压缩包
+2、	配置环境变量
+		cxf_home   根目录
+		path	    %cxf_home%/bin
+		classpath   %cxf_home%/lib
+3、cmd中使用wsdl2java测试是否安装成功
+4、建立一个空文件夹如wsdl,切换到该目录下
+输入wsdl2java http://localhost:8080/cxf-server/ws/hello?wsdl
+即可生成接口实例
+本例中为C盘下一个空文件夹wsdl
+C:\wsdl>wsdl2java http://localhost:8080/cxf-server/ws/hello?wsdl
+获得了接口实例之后，就可以把文件夹复制到客户端java工程src目录下
+之后可以使用  客户端直接能拿到服务器提供的接口
+		a.1 单独使用cxf访问
+		a.2 spring集成cxf方式访问  这两个种方式进行访问webservice

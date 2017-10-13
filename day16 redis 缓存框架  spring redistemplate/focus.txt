@@ -1,0 +1,109 @@
+
+缓存框架redis
+	学过的缓存：
+	
+	浏览器缓存
+	hibernate缓存[一级-Session维护 二级-SessionFactory维护 (即是一些第三方缓存组件 ehcache oscache)]
+	什么是  redis?
+	搭建于服务层与持久层之间的缓存系统 : 
+	
+	当服务器启动时(web.xml中设置一个全局监听器ServletContextListener)
+	在该监听器的init()方法中
+	通过调用服务层-调用持久层
+	-连接数据库，把查询出的数据list存储在缓存系统中
+
+	
+	后续用户使用时
+	controller -> service -> 缓存系统  从缓存系统中加载数据
+
+	[浏览器发出请求-controller-service-dao-数据库]
+
+	[浏览器发出请求-controller-service-缓存]
+	                                     |<-- 服务层-dao-数据库
+
+	使用缓存系统可以提高用户使用效率 
+
+	redis缓存系统是一种高性能的key-value数据库
+	缓存系统  ==   key-value数据库  (Map)
+		存储在内存中一个Map对象中
+
+	
+	redis - 缓存系统   -  mysql | oracle
+	
+	
+	
+
+	java中为了实现对mysql|oracle的连接 提供了jdbc技术
+		而spring提供了一个模板类JdbcTemplate封装了jdbc技术
+
+Jedis Client是Redis官网推荐的一个面向Java客户端,库文件实现了对各类
+API进行封装调用。
+	
+	jedis框架 
+		单独使用该框架实现对redis连接
+		Jedis jedis = new Jedis("localhost");
+		jedis.set("foo","bar");
+		String value = jedis.get("foo");
+		System.out.println(value);
+
+		spring中提供了对jedis的封装 
+			RedisTemplate 封装 jedis连接redis的流程
+
+IOC容器applicationContext.xml中流程
+
+1、配置连接池JedisPoolConfig
+	如果连接信息需要先配置在一个redis.properties中然后在引进来
+	需要用到一个标签<context:property-placeholder location=""/>
+<context:property-placeholder location="classpath:redis.properties"/>
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig"
+		p:maxTotal="${redis.pool.maxActive}"
+		p:maxIdle="${redis.pool.maxIdle}"
+		p:maxWaitMillis="${redis.pool.maxWaitMillis}"/>
+2、 配置连接工厂 JedisConnectionFactory 需要一个连接池
+3、 配置模板类 需要一个连接工厂
+4、 注入给Service -> 实现对redis的连接操作
+
+
+		需要用到spring-data组件
+			spring-data-redis.jar
+
+[redis  jedis   spring-data-redis.jar  RedisTemplate]
+[mysql   jdbc    spring-jdbc.jar       JdbcTemplate]
+
+
+redis 提供五种数据类型 :  string  hash  list  set   sortedSet
+
+
+redis 提供的方法:
+添加:RedisConnection con.set( key.getBytes(), value.getBytes());
+通过key获得value:if(con.exists(key.getBytes())){
+			byte[] value = con.get(key.getBytes());
+			return new String(value);
+		 }
+redis对list集合操作：
+setList:
+	ListOperations lo = rt.opsForList();
+		for(Object arg : list){
+		lo.rightPush(key, arg);
+	}
+getList:
+	ListOperations lo = rt.opsForList();
+	long size = lo.size(key);
+	return lo.range(key, 0, size-1);
+	或者
+	public Object popList(String key){
+	ListOperations lo = rt.opsForList();
+	return   lo.rightPop(key);}
+对map操作：
+setMap:	一次添一个
+	HashOperations ho = rt.opsForHash();
+	ho.put(key, map_K, map_v);
+getMap:
+	HashOperations ho = rt.opsForHash();
+	Map map = ho.entries(key);
+	Object value = ho.get(key, "addr");
+	Set keys = ho.keys(key);
+	List values = ho.values(key);
+
+
+

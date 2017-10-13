@@ -1,0 +1,18 @@
+redis port  6379
+
+如何使用redis
+解压缩redis之后 找到64bit的文件夹
+如：D:\Java课件\贾老师\课前资料\API\redis\redis\64bit
+然后在cmd中开启一个窗口作为服务器端
+服务器端  开启redis服务
+定位到64bit目录下 输入 redis-server.exe redis.conf  开启服务
+
+然后在cmd中再开启一个窗口作为客户端
+客户端 连接服务器
+也是定位到64bit目录下  输入redis-cli.exe -h 127.0.0.1 -p 6379  连接服务器
+
+客户端命令
+存数据
+set name easytour
+取数据
+get name

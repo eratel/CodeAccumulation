@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+	<!-- 
+		核心部分
+		目标对象
+	 -->
+	<bean id="userWeb" class="com.etoak.web.UserWeb"/>
+	
+	<!-- 
+		非核心部分
+		切面类
+	 -->
+	<bean id="beforeAdvice" class="com.etoak.utils.BeforeAdvice"/>
+	<bean id="afterAdvice" class="com.etoak.utils.AfterAdvice"/>
+	<bean id="aroundAdvice" class="com.etoak.utils.AroundAdvice"/>
+	<bean id="throwAdvice" class="com.etoak.utils.ThrowAdvice"/>
+	
+	<aop:config>
+		<!-- 
+			aop:pointcut表示切入点
+			execution(* com.etoak.web.*.*(..))
+			第一个* 表示返回值
+			第二个* 表示所有的类
+			第三个* 表示类下所有的方法
+			(..)  表示参数
+		 -->
+		<!-- <aop:pointcut 
+		expression="execution(* com.etoak.web.*.add*(..)) || execution(* com.etoak.web.*.del*(..))" id="p"/> -->
+		<aop:pointcut 
+		expression="execution(* com.etoak.web.*.*(..))" id="p"/>
+		
+		<!-- 
+			连接点
+			通知 + 切入点 = aop
+		 -->
+		<aop:advisor advice-ref="beforeAdvice" pointcut-ref="p"/>
+		<aop:advisor advice-ref="afterAdvice" pointcut-ref="p"/>
+		<aop:advisor advice-ref="aroundAdvice" pointcut-ref="p"/>
+		<aop:advisor advice-ref="throwAdvice" pointcut-ref="p"/>
+	</aop:config>
+
+</beans>

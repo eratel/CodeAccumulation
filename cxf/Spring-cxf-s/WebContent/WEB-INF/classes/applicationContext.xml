@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://cxf.apache.org/jaxws
+	http://cxf.apache.org/schemas/jaxws.xsd">
+	
+	<context:component-scan base-package="com.etoak"/>
+
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+	
+	<!-- 
+		jdk发布服务端
+	 -->
+	<jaxws:endpoint implementor="#userServiceImpl" address="/user" />
+	
+	<!-- 
+		cxf发布服务端
+	 -->
+	<!--  <jaxws:server serviceClass="com.etoak.service.UserService" 
+	 				address="/user">
+	 	<jaxws:serviceBean>
+	 		<ref bean="userServiceImpl"/>
+	 	</jaxws:serviceBean>
+	 </jaxws:server>	 -->
+
+</beans>

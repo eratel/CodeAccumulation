@@ -1,0 +1,198 @@
+
+
+webservice
+	是一种 特殊的web应用程序
+
+	什么叫应用程序 : 
+		一个类,一组类  协作完成某项服务 
+	
+
+	普通的web应用程序 : 
+		只能被本工程中的其他web应用程序访问
+	
+	webservice
+		提供的服务不仅能被本工程中的其他web应用程序访问
+		被其他服务器或者其他工程中的应用程序访问
+
+spring 
+	ioc
+		工厂bean
+			必要性 ? 
+				只有接口 没有实现类
+					通过Factory 获取接口实例
+						匿名内部类
+							{
+		远程调用其他服务器/工程中接口的具体实现.		
+					}
+		远程调用其他服务器/工程中接口的具体实现.
+		这其实就是调用其他的webservice
+		
+			RMI [remote method invoke]
+			webservice
+
+	
+	1 需要用到其他服务器/项目提供的服务
+		比如支付宝接口  银联接口
+		这其实就是调用一个webservice
+	2 开发工程中提供的某项服务需要让其他服务器能够访问 
+				即创建webservice
+
+webservice技术 : 
+	服务的发布与访问 : 
+	
+	我们可以将一个普通的web应用程序'发布'成一个webservice应用程序
+	然后在其他工程中'访问'服务器发布的webservice程序
+
+	服务器端
+	
+	客户端 
+	
+webservice常用的三种技术
+	
+	axis2
+		重量级的webservice技术
+		需要在服务器(tomcat weblogic)中配置使用
+		不局限于一种编程语言(java C .net ...)
+		* 优势在于跨语言
+		发布服务的工程与访问服务器的工程不是使用同一种编程语言
+		跨语言的webservice技术。
+
+	xfire
+		轻量级的webservice技术.
+		提供了对IDE的内置集成 myeclipse eclipse中使用xfire
+		特点是：快速 高效
+
+	cxf
+		javaee内置的 官方使用的webservice技术.
+		* 提供了对spring框架的内置集成
+		
+
+spring环境下,通过spring对cxf集成的方式 : 
+
+
+A 配置spring集成cxf的过程 : 
+
+1 服务器端 , 如何使用cxf发布webservice应用程序
+
+服务器端导入的jar包
+	a 导入cxf核心jar(12)以及spring提供的整合jar(2)+core层4个+
+				日志包1个+web层1个
+	b ioc容器中导入cxf命名空间+schema文件
+	c ioc容器中导入支持cxf运行和使用的第三方辅助xml文件
+	<import resource="classpath:/META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:/META-INF/cxf/cxf-servlet.xml"/>
+	<import resource="classpath:/META-INF/cxf/cxf-extension-soap.xml"/>
+	
+	a 提供一个普通的web应用程序
+	b 将这个普通的web应用程序‘标注’成一个webservice应用程序
+		@WebService 标注接口和其实现类
+	
+	b.1 webservice技术底层采用<接口>编程
+		对于需要发布成webservice应用程序的普通应用程序，
+		必须先提供一个接口实现.
+		并且以接口的方式将实现类(应用程序)暴露出去
+
+	[对于需要发布成webservice的应用程序必须提供一个接口实现;使用@WebService标注接口和实现类]
+	
+	c 在ioc容器中配置发布的过程
+	
+	d 在工程的web.xml中配置webservice请求接收器CXFServlet
+		接收其他工程发送过来的webservice请求
+			CXFServlet extends HttpServlet
+	
+	e 测试发布是否成功
+
+	wsdl  是 webservice描述语言	
+	* 在使用webservice技术将一个程序发布成webservice程序之后,(cxf会将发布的webservice编码成xml格式进行发布)
+
+
+2 客户端 , 如何使用cxf访问webservice应用程序
+	
+	服务器端在发布了webservice程序之后,
+	为了让客户端工程能够知道他发布了一个什么样webservice
+	提供了两种方式暴露这些信息 : 
+		接口方式
+		wsdl地址方式  常用该方式
+			http://localhost:8080/cxf-server/ws/hello
+
+	a 客户端直接能拿到服务器提供的接口
+		a.1 单独使用cxf访问
+		a.2 spring集成cxf方式访问
+		
+	b 客户端如果拿不到接口即使用wsdl地址方式
+	这是需要解析wsdl地址来获得接口实例  需要用到apache-cxf
+		wsdl地址的解析 
+			apache-cxf
+
+安装apache-cxf  
+1、解压缩压缩包
+2、	配置环境变量
+		cxf_home   根目录
+		path	    %cxf_home%/bin
+		classpath   %cxf_home%/lib
+3、cmd中使用wsdl2java测试是否安装成功
+4、建立一个空文件夹如wsdl,切换到该目录下
+输入wsdl2java http://localhost:8080/cxf-server/ws/hello?wsdl
+即可生成接口实例
+本例中为C盘下一个空文件夹wsdl
+C:\wsdl>wsdl2java http://localhost:8080/cxf-server/ws/hello?wsdl
+获得了接口实例之后，就可以把文件夹复制到客户端java工程src目录下
+之后可以使用  客户端直接能拿到服务器提供的接口
+		a.1 单独使用cxf访问
+		a.2 spring集成cxf方式访问  这两个种方式进行访问webservice
+
+
+
+正则表达式
+	学过的表达式有
+	el jstl cron aop[execution(* com.etoak.action.*.*(..))]
+	表达式其实就是一个字符串
+	字符串： 包含普通字符(a 0)以及一些特殊字符(* % # $) 
+
+正则表达式就是
+	使用字符串去匹配另外一组字符序列(字符串)的合法性
+
+客户端中javaScript提供的正则表达式 : 
+	效率高 
+	但是可能会不安全，因为如果禁用了JavaScript，那么
+	验证过程就会失效
+而服务器端中java提供的正则表达式 : 
+	安全性相对会高一些
+	
+正则表达式
+	[xxx]  取括号中的任意一个字符
+	{n,m} n~m  {n} n  {n,} >=n
+	\d == [0-9]
+	\D == [^0-9]
+	\w == [a-zA-Z0-9_]
+	\W == ^\w
+	[\u4e00-\u9fa5]{2,} 这个表示输入2位以上的中文 只能是中文
+	(1[6-9])|([2-4]\\d)|(5[0-5]) 
+	第一位只取一个可以去掉[] 表示去16~55的数字
+	
+	身份证号 : 18 数字 [xX]	
+		\\d{17}[0-9xX]
+	邮箱 : [字母 数字 _]@[数字 字母].[字母]
+		\\w[4,8]@\\w{2,}\\.\\w{2,}
+	个人主页 : http://www.???.com
+	http:\/\/www\\.[.]{2,}\\.com
+
+javaScript中如何使用正则表达式
+给表单提供  onsubmit="return check()"
+
+function check(){
+	var loginname = document.getElementById("loginname").value;
+	/**
+		 ^ 正则表达式的行为开始
+		 $ 正则表达式的行为结束
+	*/
+	var format = "^[a-zA-Z0-9_]{4,8}$";
+	var result = new RegExp(format).test(loginname);
+	
+	alert(result);
+
+	return result;
+}
+
+
+

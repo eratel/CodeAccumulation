@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+	
+	<!-- 1 将任务对象交由ioc容器管理 -->
+	<bean id="dbu" class="com.etoak.util.DataBackup"></bean>
+	
+	<!-- 2 描述任务细节
+		设置接下来需要执行的任务内容由哪个对象提供,由该对象的哪个方法提供
+			MethodInvokingJobDetailFactoryBean
+				setTargetObject(Object obj) - 设置任务对象
+				setTargetMethod(String methodName) - 设置任务方法
+	 -->
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		p:targetObject-ref="dbu"
+		p:targetMethod="backup"/>
+		
+	<!-- 3 配置触发时间|周期 [触发器] 
+		CronTriggerFactoryBean
+			setJobDetail(JobDetail jd) 
+				描述为哪个任务细节设置触发器
+			setCronExpression(String expression)
+				通过表达式设置触发的时间|周期
+		cron表达式 : 
+			秒 0-59 
+			分钟 0-59 
+			小时 0-23 
+			月内日期 1-31 
+			月  1-12
+			周内日期 0-6 
+			年(可选) 1970-2099
+		* 该字段取值任意
+		? 只能出现在月内日期和周内日期字段中
+			表示该字段不取任何特定值(该字段没有任何意义)
+		/ 增量值
+		L 只出现在月内日期和周内日期字段中  last
+			最后一个实例
+		# 第几个实例
+	 -->
+	<bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+		p:jobDetail-ref="jobDetail"
+		p:cronExpression="0/5 * * * * ?"/>
+		
+	<!-- 4 配置总调度类 [listener]
+		SchedulerFactoryBean
+			setTriggers(Trigger[] trigger)
+				将当前ioc容器中配置的所有触发器引入到该调度类中
+				由该调度类统一进行调度
+	 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="trigger"/>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

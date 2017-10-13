@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/cxf-2.7.6.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/geronimo-servlet_3.0_spec-1.0.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/jetty-continuation-8.1.7.v20120910.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/jetty-http-8.1.7.v20120910.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/jetty-io-8.1.7.v20120910.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/jetty-server-8.1.7.v20120910.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/jetty-util-8.1.7.v20120910.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/neethi-3.0.2.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/stax2-api-3.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/woodstox-core-asl-4.2.0.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/wsdl4j-1.6.3.jar"/>
+	<classpathentry kind="lib" path="D:/API-JAR/spring-framework-3.2.1/spring3.2 - jar整理/cxf/xmlschema-core-2.0.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
